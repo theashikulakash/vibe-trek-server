@@ -1,8 +1,8 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-const { createRemoteJWKSet, jwtVerify } = require("jose-cjs");
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { createRemoteJWKSet, jwtVerify } = require('jose-cjs');
 dotenv.config();
 
 const uri = process.env.MONGODB_URI;
@@ -10,7 +10,15 @@ const uri = process.env.MONGODB_URI;
 const app = express();
 const PORT = process.env.PORT;
 
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow your Next.js app
+  credentials: true,               // Allow cookies/headers to pass through
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 const client = new MongoClient(uri, {
